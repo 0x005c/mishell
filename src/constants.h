@@ -1,0 +1,9 @@
+#ifndef MISH_CONSTANTS_H
+#define MISH_CONSTANTS_H
+
+#define MISH_MAX_LINE_LENGTH 100
+#define MISH_MAX_PATH_LENGTH 100
+#define MISH_MAX_ARG_COUNT 100
+
+#endif
+
