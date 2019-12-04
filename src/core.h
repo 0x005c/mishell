@@ -5,7 +5,7 @@
 #include  "shellstate.h"
 
 int exec_command(Command *command);
-void main_loop(ShellState *S, FILE *fp);
+void mish(FILE *fp);
 
 #endif
 

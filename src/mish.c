@@ -5,6 +5,7 @@
 #include <termios.h>
 #include <sys/wait.h>
 
+#include "mish.h"
 #include "core.h"
 #include "constants.h"
 #include "shellstate.h"
@@ -12,25 +13,20 @@
 
 ShellState* parse_args(int argc, char *argv[]) {
   ShellState *S = malloc(sizeof(ShellState));
+  S->cursor_pos_x = 0;
+  S->is_command_running = false;
   return S;
 }
 
 ShellState *S;
 
-void on_receive_SIGINT(int sig_num) {
-  signal(SIGINT, on_receive_SIGINT);
-  printf("\n");
-  main_loop(S, stdin);
-}
-
 struct termios t;
 int main(int argc, char *argv[]) {
-  signal(SIGINT, on_receive_SIGINT);
   S = parse_args(argc, argv);
 
   tcgetattr(STDIN_FILENO, &t);
   t.c_lflag &= ~ICANON;
   tcsetattr(STDIN_FILENO, TCSANOW, &t);
-  main_loop(S, stdin);
+  mish(stdin);
 }
 

@@ -11,5 +11,7 @@ char** get_command_args(Command *command);
 int get_command_argc(Command *command);
 Command* gen_command(const char *line);
 
+void free_command(Command *command);
+
 #endif
 

@@ -42,6 +42,7 @@ Command* gen_command(const char *line) {
     if(i != j) {
       char *word = malloc(i-j+1);
       strncpy(word, line+j, i-j);
+      word[i-j] = '\0';
       args[args_pos++] = word;
     }
   }
@@ -54,7 +55,14 @@ Command* gen_command(const char *line) {
     return command;
   }
   else {
+    for(int i=0; args[i] != NULL; i++) free(args[i]);
+    free(args);
     return NULL;
   }
 }
 
+void free_command(Command *command) {
+  for(int i=0; command->args[i] != NULL; i++) free(command->args[i]);
+  free(command->args);
+  free(command);
+}
