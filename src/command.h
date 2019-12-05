@@ -2,7 +2,8 @@
 #define MISH_COMMAND_H
 
 typedef struct Command {
-  char *name;
+  char *redirect_to;
+  char *redirect_from;
   char **args;
 } Command;
 

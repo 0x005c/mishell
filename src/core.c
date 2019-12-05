@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <fcntl.h>
 #include <libgen.h>
 #include <unistd.h>
 #include <string.h>
@@ -22,6 +23,19 @@ int exec_command(Command *command) {
   else if(pid == 0) {
     char *cname = get_command_name(command);
     char **cargs = get_command_args(command);
+    if(command->redirect_to) {
+      close(STDOUT_FILENO);
+      int fd = open(command->redirect_to,
+          O_WRONLY|O_CREAT|O_TRUNC,
+          S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH);
+      if(dup2(fd, STDOUT_FILENO) == -1) perror("dup2");
+      // XXX: adding close(fd) make this code not work
+    }
+    if(command->redirect_from) {
+      close(STDIN_FILENO);
+      int fd = open(command->redirect_from, O_RDONLY);
+      if(dup2(fd, STDIN_FILENO) == -1) perror("dup2");
+    }
     if(execvp(cname, cargs) == -1) perror(cname);
     exit(EXIT_FAILURE);
   }
