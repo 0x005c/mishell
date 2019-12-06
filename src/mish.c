@@ -20,13 +20,8 @@ ShellState* parse_args(int argc, char *argv[]) {
 
 ShellState *S;
 
-struct termios t;
 int main(int argc, char *argv[]) {
   S = parse_args(argc, argv);
-
-  tcgetattr(STDIN_FILENO, &t);
-  t.c_lflag &= ~ICANON;
-  tcsetattr(STDIN_FILENO, TCSANOW, &t);
   mish(stdin);
 }
 

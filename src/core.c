@@ -65,8 +65,7 @@ char* read_line(FILE *fp) {
   S->cursor_pos_x = 0;
   while(S->cursor_pos_x < MISH_MAX_LINE_LENGTH) {
     c = fgetc(fp);
-    // detect ctrl-d
-    if(c == 0x04) printf("\n"), builtin_exit();
+    if(c == EOF) printf("\n"), builtin_exit();
     if(c == '\n' || c == '\r') break;
     if(c == '\t') {
       printf("\n");
