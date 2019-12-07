@@ -6,6 +6,8 @@
 typedef struct ShellState {
   size_t cursor_pos_x;
   bool is_command_running;
+  bool command_mode;
+  char *command;
 } ShellState;
 
 #endif
